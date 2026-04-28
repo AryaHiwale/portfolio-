@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Arya Hiwale — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #F7F3EE;
+    --warm: #EDE5DA;
+    --accent: #C8A97E;
+    --deep: #2B2320;
+    --mid: #6B5B4E;
+    --light: #A8967F;
+    --white: #FDFAF7;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--deep);
+    overflow-x: hidden;
+  }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.4rem 3rem;
+    background: rgba(247,243,238,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(200,169,126,0.18);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem; font-weight: 600; letter-spacing: 0.04em;
+    color: var(--deep); text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2.4rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--mid); text-decoration: none; font-weight: 500;
+    transition: color 0.25s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  #hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center; padding: 7rem 3rem 4rem;
+    gap: 4rem; position: relative; overflow: hidden;
+  }
+  #hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 70% at 75% 50%, rgba(200,169,126,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-text { position: relative; }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent); font-weight: 500; margin-bottom: 1.6rem;
+  }
+  .hero-eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--accent); }
+  .hero-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 5.5vw, 5.2rem); font-weight: 300; line-height: 1.08;
+    color: var(--deep); margin-bottom: 0.4rem;
+  }
+  .hero-name em { font-style: italic; color: var(--accent); }
+  .hero-role {
+    font-size: 0.82rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--mid); margin-bottom: 1.8rem; font-weight: 400;
+  }
+  .hero-bio {
+    font-size: 1rem; line-height: 1.75; color: var(--mid);
+    max-width: 440px; margin-bottom: 2.4rem; font-weight: 300;
+  }
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 0.7rem;
+    padding: 0.85rem 2rem; background: var(--deep); color: var(--cream);
+    text-decoration: none; font-size: 0.78rem; letter-spacing: 0.12em;
+    text-transform: uppercase; font-weight: 500;
+    transition: background 0.3s, transform 0.2s; border-radius: 2px;
+  }
+  .hero-cta:hover { background: var(--accent); transform: translateY(-1px); }
+  .hero-cta:hover svg { transform: translateX(3px); }
+  .hero-cta svg { transition: transform 0.2s; }
+  .hero-visual { display: flex; justify-content: center; align-items: center; position: relative; }
+  .portrait-wrap { position: relative; width: 340px; height: 420px; }
+  .portrait-frame {
+    width: 100%; height: 100%;
+    border-radius: 200px 200px 160px 160px;
+    background: linear-gradient(145deg, var(--warm), var(--accent));
+    display: flex; align-items: flex-end; justify-content: center;
+    overflow: hidden; position: relative;
+  }
+  .portrait-initials {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 7rem; font-weight: 300; color: rgba(255,255,255,0.35);
+    line-height: 1; padding-bottom: 2rem; user-select: none;
+  }
+  .portrait-badge {
+    position: absolute; bottom: -10px; right: -10px;
+    background: var(--deep); color: var(--cream);
+    padding: 0.7rem 1.2rem; border-radius: 2px;
+    font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500;
+  }
+  .stat-pill {
+    position: absolute;
+    background: var(--white); border: 1px solid rgba(200,169,126,0.3);
+    padding: 0.7rem 1.1rem; border-radius: 50px;
+    font-size: 0.7rem; font-weight: 500; color: var(--mid); letter-spacing: 0.06em;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .stat-pill .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  .stat-1 { top: 40px; left: -50px; }
+  .stat-2 { top: 160px; right: -60px; }
+  .stat-3 { bottom: 80px; left: -40px; }
+
+  section { padding: 6rem 3rem; }
+  .section-header { margin-bottom: 3.5rem; }
+  .section-label {
+    font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent); font-weight: 500; margin-bottom: 0.8rem;
+    display: flex; align-items: center; gap: 0.7rem;
+  }
+  .section-label::after { content: ''; flex: 0 0 24px; height: 1px; background: var(--accent); }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 4vw, 3.4rem); font-weight: 300; line-height: 1.12;
+    color: var(--deep);
+  }
+  .section-title em { font-style: italic; color: var(--accent); }
+
+  #about { background: var(--white); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+  .about-text p { font-size: 1rem; line-height: 1.8; color: var(--mid); font-weight: 300; margin-bottom: 1.2rem; }
+  .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .stat-card {
+    padding: 1.8rem; border: 1px solid rgba(200,169,126,0.25);
+    border-radius: 4px; background: var(--cream);
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .stat-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.8rem; font-weight: 300; color: var(--accent); line-height: 1; margin-bottom: 0.3rem;
+  }
+  .stat-label { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid); font-weight: 500; }
+
+  #skills { background: var(--deep); color: var(--cream); }
+  #skills .section-title { color: var(--cream); }
+  .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+  .skill-category {
+    padding: 2rem; border: 1px solid rgba(200,169,126,0.2);
+    border-radius: 4px; transition: border-color 0.3s, background 0.3s;
+  }
+  .skill-category:hover { border-color: var(--accent); background: rgba(200,169,126,0.05); }
+  .skill-cat-icon { font-size: 1.4rem; margin-bottom: 1rem; }
+  .skill-cat-title {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 400;
+    color: var(--accent); margin-bottom: 1rem;
+  }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .skill-tag {
+    padding: 0.3rem 0.8rem; background: rgba(200,169,126,0.1);
+    border: 1px solid rgba(200,169,126,0.2); border-radius: 50px;
+    font-size: 0.72rem; letter-spacing: 0.06em; color: rgba(253,250,247,0.75); font-weight: 400;
+  }
+
+  #projects { background: var(--cream); }
+  .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .project-card {
+    background: var(--white); border: 1px solid rgba(200,169,126,0.2);
+    border-radius: 6px; overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .project-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(43,35,32,0.1); }
+  .project-thumb {
+    height: 180px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 300;
+    color: rgba(255,255,255,0.5); letter-spacing: 0.1em;
+    position: relative; overflow: hidden;
+  }
+  .project-thumb::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to bottom, transparent 50%, rgba(43,35,32,0.2));
+  }
+  .project-body { padding: 1.6rem; }
+  .project-body h3 {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 400;
+    color: var(--deep); margin-bottom: 0.5rem;
+  }
+  .project-body p { font-size: 0.85rem; line-height: 1.65; color: var(--mid); font-weight: 300; margin-bottom: 1rem; }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.2rem; }
+  .project-tag {
+    padding: 0.25rem 0.7rem; background: var(--cream);
+    border: 1px solid rgba(200,169,126,0.3); border-radius: 50px;
+    font-size: 0.68rem; letter-spacing: 0.08em; color: var(--mid);
+  }
+  .project-link {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--accent); text-decoration: none; font-weight: 500; transition: gap 0.2s;
+  }
+  .project-link:hover { gap: 0.7rem; }
+
+  #certificates { background: var(--white); }
+  .cert-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+  .cert-card {
+    display: flex; gap: 1.2rem; align-items: flex-start;
+    padding: 1.6rem; border: 1px solid rgba(200,169,126,0.22);
+    border-radius: 4px; background: var(--cream);
+    transition: border-color 0.3s, transform 0.25s;
+  }
+  .cert-card:hover { border-color: var(--accent); transform: translateX(4px); }
+  .cert-icon {
+    width: 42px; height: 42px; flex-shrink: 0;
+    background: linear-gradient(135deg, var(--warm), var(--accent));
+    border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+  }
+  .cert-info .issuer {
+    font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--accent); font-weight: 500; margin-bottom: 0.25rem;
+  }
+  .cert-info h4 {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 400;
+    color: var(--deep); margin-bottom: 0.3rem;
+  }
+  .cert-info .cert-date { font-size: 0.72rem; color: var(--light); }
+  .cert-link {
+    margin-top: 0.5rem; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--accent); text-decoration: none; font-weight: 500;
+    display: inline-flex; align-items: center; gap: 0.3rem;
+  }
+  .cert-link:hover { text-decoration: underline; }
+
+  #contact {
+    background: var(--deep); color: var(--cream);
+    text-align: center; display: flex; flex-direction: column; align-items: center;
+  }
+  #contact .section-label { justify-content: center; }
+  #contact .section-label::after { display: none; }
+  #contact .section-label::before { content: ''; flex: 0 0 24px; height: 1px; background: var(--accent); }
+  #contact .section-title { color: var(--cream); margin-bottom: 1.2rem; }
+  #contact p { color: rgba(253,250,247,0.6); font-weight: 300; max-width: 460px; line-height: 1.7; margin-bottom: 2.5rem; }
+  .contact-form { width: 100%; max-width: 520px; text-align: left; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
+  .form-group label { font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(253,250,247,0.5); font-weight: 500; }
+  .form-group input, .form-group textarea {
+    background: rgba(253,250,247,0.06); border: 1px solid rgba(200,169,126,0.25);
+    border-radius: 3px; padding: 0.85rem 1rem; color: var(--cream);
+    font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 300;
+    outline: none; transition: border-color 0.25s; resize: none;
+  }
+  .form-group input:focus, .form-group textarea:focus { border-color: var(--accent); }
+  .submit-btn {
+    width: 100%; padding: 1rem; background: var(--accent); color: var(--deep);
+    border: none; border-radius: 3px; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; font-size: 0.78rem;
+    letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600;
+    transition: opacity 0.25s, transform 0.2s;
+  }
+  .submit-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+
+  footer {
+    background: #1A1310; color: rgba(253,250,247,0.4);
+    padding: 2rem 3rem; display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.72rem; letter-spacing: 0.08em;
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .hero-eyebrow { animation: fadeUp 0.7s 0.1s both; }
+  .hero-name    { animation: fadeUp 0.7s 0.25s both; }
+  .hero-role    { animation: fadeUp 0.7s 0.38s both; }
+  .hero-bio     { animation: fadeUp 0.7s 0.5s both; }
+  .hero-cta     { animation: fadeUp 0.7s 0.62s both; }
+  .portrait-wrap { animation: fadeUp 0.9s 0.3s both; }
+  .stat-pill    { animation: fadeUp 0.7s 0.7s both; }
+
+  @media (max-width: 900px) {
+    #hero { grid-template-columns: 1fr; padding: 6rem 1.5rem 3rem; }
+    .hero-visual { order: -1; }
+    .portrait-wrap { width: 260px; height: 320px; }
+    .stat-1, .stat-2, .stat-3 { display: none; }
+    .about-grid, .skills-grid, .projects-grid, .cert-grid { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { gap: 1.4rem; }
+    section { padding: 4rem 1.5rem; }
+    footer { flex-direction: column; gap: 0.7rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#hero" class="nav-logo">Arya H.</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#certificates">Certificates</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <div class="hero-text">
+    <span class="hero-eyebrow">Open to Opportunities</span>
+    <h1 class="hero-name">Arya<br><em>Hiwale</em></h1>
+    <p class="hero-role">IT Engineer &nbsp;·&nbsp; Fresh Graduate &nbsp;·&nbsp; Lifelong Learner</p>
+    <p class="hero-bio">Passionate about building meaningful digital experiences. I bring curiosity, dedication, and a love for technology to everything I create.</p>
+    <a href="#contact" class="hero-cta">
+      Get in touch
+      <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5h12M8 1l5 4-5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+  <div class="hero-visual">
+    <div class="portrait-wrap">
+      <div class="portrait-frame">
+        <img src="IMAGE.jpg" style="width:100%; height:100%; object-fit:cover;" />
+    
+      </div>
+      <div class="portrait-badge">IT Engineer</div>
+      <div class="stat-pill stat-1"><span class="dot"></span>Engineering Undergraduate</div>
+      <div class="stat-pill stat-2"><span class="dot"></span>1+ Hands-on Projects</div>
+      <div class="stat-pill stat-3"><span class="dot"></span>Avid Book Reader</div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="section-header">
+    <p class="section-label">Who I Am</p>
+    <h2 class="section-title">About <em>Me</em></h2>
+  </div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>Hi, I'm <strong>Arya Hiwale</strong> — a passionate IT Engineer with a drive to learn and grow in the technology field. I'm a fresh graduate eager to apply my skills and contribute meaningfully to innovative teams.</p>
+      <p>I believe every great engineer starts with curiosity. From my studies and projects, I enjoy solving real-world problems using technology.</p>
+      <p>Outside of tech, I love reading — it fuels my creativity and keeps me thinking. I'm always excited to learn something new, take on fresh challenges, and grow both personally and professionally.</p>
+    </div>
+    <div class="about-stats">
+      <div class="stat-card">
+        <div class="stat-num">IT</div>
+        <div class="stat-label">Engineering Undergraduate</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">1+</div>
+        <div class="stat-label">Hands-on Projects</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">∞</div>
+        <div class="stat-label">Eagerness to Learn</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">📚</div>
+        <div class="stat-label">Avid Book Reader</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="section-header">
+    <p class="section-label" style="color:var(--accent)">What I Know</p>
+    <h2 class="section-title">My <em>Skills</em></h2>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-category">
+      <div class="skill-cat-icon">💻</div>
+      <h3 class="skill-cat-title">Languages</h3>
+      <div class="skill-tags">
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">JavaScript</span>
+        <span class="skill-tag">HTML</span>
+        <span class="skill-tag">CSS</span>
+        <span class="skill-tag">Java</span>
+      </div>
+    </div>
+    <div class="skill-category">
+      <div class="skill-cat-icon">🗄️</div>
+      <h3 class="skill-cat-title">Database</h3>
+      <div class="skill-tags">
+        <span class="skill-tag">MySQL</span>
+        <span class="skill-tag">SQL Basics</span>
+        <span class="skill-tag">Data Modeling</span>
+      </div>
+    </div>
+    <div class="skill-category">
+      <div class="skill-cat-icon">🛠️</div>
+      <h3 class="skill-cat-title">Tools & Platforms</h3>
+      <div class="skill-tags">
+        <span class="skill-tag">Git & GitHub</span>
+        <span class="skill-tag">VS Code</span>
+      </div>
+    </div>
+    <div class="skill-category">
+      <div class="skill-cat-icon">🌐</div>
+      <h3 class="skill-cat-title">Web Development</h3>
+      <div class="skill-tags">
+        <span class="skill-tag">Responsive Design</span>
+        <span class="skill-tag">DOM Manipulation</span>
+        <span class="skill-tag">REST APIs</span>
+      </div>
+    </div>
+    <div class="skill-category">
+      <div class="skill-cat-icon">🤝</div>
+      <h3 class="skill-cat-title">Soft Skills</h3>
+      <div class="skill-tags">
+        <span class="skill-tag">Communication</span>
+        <span class="skill-tag">Teamwork</span>
+        <span class="skill-tag">Problem Solving</span>
+        <span class="skill-tag">Time Management</span>
+      </div>
+    </div>
+    <div class="skill-category">
+      <div class="skill-cat-icon">🌱</div>
+      <h3 class="skill-cat-title">Always Building</h3>
+      <div class="skill-tags">
+        <span class="skill-tag">Continuous Learning</span>
+        <span class="skill-tag">New Domains</span>
+        <span class="skill-tag">Ongoing Projects</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="section-header">
+    <p class="section-label">What I've Built</p>
+    <h2 class="section-title">My <em>Projects</em></h2>
+  </div>
+  <div class="projects-grid">
+    <div class="project-card">
+      <div class="project-thumb" style="background: linear-gradient(135deg, #D4B896, #8B6F5C);">Proj</div>
+      <div class="project-body">
+        <h3>AVENGERS
+  
+        </h3>
+        <p>A website on marvel.</p>
+        <div class="project-tags">
+          <span class="project-tag">Python</span>
+          <span class="project-tag">MySQL</span>
+          <span class="project-tag">HTML/CSS</span>
+        </div>
+        <a href="202501080198/avenger final.html" target="_blank" class="project-link">View project →</a>
+      </div>
+    </div>
+    
+  </div>
+</section>
+
+<section id="certificates">
+  <div class="section-header">
+    <p class="section-label">Achievements & Learning</p>
+    <h2 class="section-title">My <em>Certificates</em></h2>
+  </div>
+  <div class="cert-grid">
+    <div class="cert-card">
+      <div class="cert-icon">🔵</div>
+      <div class="cert-info">
+        <p class="issuer">Cisco</p>
+        <h4>Python Essential 1</h4>
+        <p class="cert-date">March 2026 · # Add credential ID</p>
+        <a href="https://drive.google.com/file/d/1BnMfU32n4KkIISAA0252KeJd4m3azX9d/view?usp=drivesdk" target="_blank" class="cert-link">View Certificate →</a>
+      </div>
+    </div>
+    <div class="cert-card">
+  <div class="cert-icon">🏆</div>
+  <div class="cert-info">
+    <p class="issuer">ANTHROPIC</p>
+    <h4>CLAUDE 01</h4>
+    <p class="cert-date">Month 2026 · # Credential ID</p>
+    <a href="https://drive.google.com/file/d/1RfqgvXSFr7rV4goed6KfBMApiOGKahGp/view?usp=drivesdk" target="_blank" class="cert-link">View Certificate →</a>
+  </div>
+</div>
+<div class="cert-card">
+  <div class="cert-icon">🏆</div>
+  <div class="cert-info">
+    <p class="issuer">ANTHROPIC</p>
+    <h4>AL FLUENCY</h4>
+    <p class="cert-date">Month 2026 · # Credential ID</p>
+    <a href="https://drive.google.com/file/d/1Cj7ax5rf03ioqjTND6Kee1oW2lSbuXe2/view?usp=drivesdk" target="_blank" class="cert-link">View Certificate →</a>
+  </div>
+</div>
+<Var><div class="cert-card">
+  <div class="cert-icon">🏆</div>
+  <div class="cert-info">
+    <p class="issuer">ANTHROPIC</p>
+    <h4>AL FLUENCY FOR STUDENT</h4>
+    <p class="cert-date">Month 2026 · # Credential ID</p>
+    <a href="https://drive.google.com/file/d/1YGbDdv-ewtIlYJX9DMrBDxizzLA0ph5O/view?usp=drivesdk" target="_blank" class="cert-link">View Certificate →</a>
+  </div>
+</div>
+</Var>
+    <div class="cert-card">
+      <div class="cert-icon">🔵</div>
+      <div class="cert-info">
+        <p class="issuer">Cisco</p>
+        <h4>Python Essential 2</h4>
+        <p class="cert-date">April 2026 · # Add credential ID</p>
+        <a href="https://drive.google.com/file/d/1vrsNRjX9eqDwJzUaAeV92HUeqU140qcN/view?usp=drivesdk" target="_blank" class="cert-link">View Certificate →</a>
+      </div>
+      </div>
+    </div>
+    <div class="cert-card">
+  <div class="cert-icon">🏆</div>
+  <div class="cert-info">
+    <p class="issuer">ANTHROPIC</p>
+    <h4>AL FLUENCY FOR NONPROFITA</h4>
+    <p class="cert-date">Month 2026 · # Credential ID</p>
+    <a href="https://drive.google.com/file/d/1mCbvT66ZollSsD2XAf-xUhWSs_l5Bnd8/view?usp=drivesdk" target="_blank" class="cert-link">View Certificate →</a>
+  </div>
+</div>
+    <div class="cert-card">
+      <div class="cert-icon">🧠</div>
+      <div class="cert-info">
+        <p class="issuer">IBM SkillsBuild</p>
+        <h4>JavaScript</h4>
+        <p class="cert-date">March 2026 · # Add credential ID</p>
+        <a href="https://drive.google.com/file/d/1FD592jlr3PgoTbhkQmNAKjplBBcRSJI1/view?usp=drivesdk" target="_blank" class="cert-link">View Certificate →</a>" target="_blank" class="cert-link">View Certificate →</a>
+      </div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-icon">🧠</div>
+      <div class="cert-info">
+        <p class="issuer">NASSCOM</p>
+        <h4>FUTURE SKILLS PRIME</h4>
+        <p class="cert-date">March 2026 · # Add credential ID</p>
+       <a href="https://drive.google.com/file/d/1ul-261BBIEj1OBFVi50Ea5UcMrLY2RkL/view?usp=drivesdk" target="_blank" class="cert-link">View Certificate →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+project link<section id="contact">
+  <p class="section-label">Let's Connect</p>
+  <h2 class="section-title">Get in <em>Touch</em></h2>
+  <p>I'm currently looking for new opportunities. Whether you have a question or just want to say hi, my inbox is always open!</p>
+  <div class="contact-form">
+    <div class="form-row">
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" placeholder="Your name" />
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" placeholder="your@email.com" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Subject</label>
+      <input type="text" placeholder="What's this about?" />
+    </div>
+    <div class="form-group">
+      <label>Message</label>
+      <textarea rows="5" placeholder="Your message..."></textarea>
+    </div>
+    <button class="submit-btn">Send Message →</button>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Arya Hiwale. All rights reserved.</span>
+  <span>Built with ♡ &nbsp;·&nbsp; <a href="#hero">Back to top ↑</a></span>
+</footer>
+
+</body>
+</html>
